@@ -25,10 +25,13 @@ if __name__=="__main__":
 
     else:
         async_robot = anki_vector.AsyncRobot()
-        async_robot.camera.init_camera_feed()
+        # async_robot.camera.init_camera_feed()
 
     # connect to Vector
     async_robot.connect()
+
+    # Camera feed?
+    async_robot.camera.init_camera_feed()
 
     # start all using shared AsyncRobot object
     Vector(async_robot)

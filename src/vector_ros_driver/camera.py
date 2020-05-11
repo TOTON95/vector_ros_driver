@@ -5,6 +5,8 @@ import anki_vector
 import cv_bridge
 import numpy
 
+import cv2
+
 from sensor_msgs.msg import Image
 
 class Camera(object):
@@ -19,7 +21,9 @@ class Camera(object):
         bridge = cv_bridge.CvBridge()
 
         while not rospy.is_shutdown():
-            image = bridge.cv2_to_imgmsg(numpy.asarray(self.async_robot.camera.latest_image), encoding="rgb8") # convert PIL.Image to ROS Image
+            raw_image = numpy.asarray(self.async_robot.camera.latest_image.raw_image)
+            # image = bridge.cv2_to_imgmsg(numpy.asarray(self.async_robot.camera.latest_image), encoding="rgb8") # convert PIL.Image to ROS Image
+            image = bridge.cv2_to_imgmsg(raw_image, encoding="rgb8") # convert PIL.Image to ROS Image
             image.header.stamp = rospy.Time.now()
             image.header.frame_id = self.image_frame_id
             self.image_publisher.publish(image)
